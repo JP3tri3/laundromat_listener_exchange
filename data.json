@@ -1,0 +1,21 @@
+{
+    "passphrase": "secure",
+    "table_name": "1hr",
+    "pair": "null",
+    "18ema": "null",
+    "21ema": "null",
+    "ema_trend": "null",
+    "candle_open": "null",
+    "candle_close": "null",
+    "candle_high": "null",
+    "candle_size": "null",
+    "candle_trend ": "null",
+    "vwap_mcb": "null",
+    "vwap_mcb_trend": "null",
+    "mfi_mcb": "null",
+    "mfi_mcb_trend": "null",
+    "big_green_dot_mcb": "null",
+    "green_dot_mcb ": "null",
+    "red_dot_mcb": "null",
+    "candle_strength_mcdbsi": "null"
+}
