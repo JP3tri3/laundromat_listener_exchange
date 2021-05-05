@@ -34,7 +34,7 @@ def add_row_from_time(table_name):
         conn.set_info_table_value(table_name, time_frame)
     else:
         check_time = int(current_row_time) + int(digit)
-        if (time_frame <= check_time):
+        if (time_frame >= check_time):
             print(f'creating new row for {table_name} table')
             conn.add_new_row(table_name, current_row_time)
             conn.set_info_table_value(table_name, time_frame)
