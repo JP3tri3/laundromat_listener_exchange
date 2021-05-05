@@ -1,4 +1,0 @@
-sanic
-sanic-jinja2
-Twisted
-Bybit
