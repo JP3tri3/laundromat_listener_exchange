@@ -14,6 +14,10 @@ db = mysql.connector.connect(
 
 mycursor = db.cursor()
 
+# mycursor.execute("INSERT INTO info () VALUES ('1m', 0)")
+# db.commit()
+
+# mycursor.execute("CREATE TABLE 1m (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_side DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
 # mycursor.execute("CREATE TABLE 6m (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_side DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
 # mycursor.execute("CREATE TABLE 15m (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_side DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
 # mycursor.execute("CREATE TABLE 1hr (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_side DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
@@ -73,9 +77,19 @@ def set_info_table_value(table_frame, value):
         print("Failed to update record to database: {}".format(error))
 
 ## View Value
-def viewDbValue(table_name, id_name, column_name):
+def view_db_value(table_name, id_name, column_name):
     try: 
         query = "SELECT " + str(column_name) + " FROM " +str(table_name)+ " WHERE id = '" + str(id_name) + "'"
+        mycursor.execute(query)
+        result = mycursor.fetchall()
+        db.commit()
+        return result[0][0]
+    except mysql.connector.Error as error:
+        print("Failed to retrieve record from database: {}".format(error))
+
+def get_last_row_value(table_name, column_name):
+    try: 
+        query = "SELECT " +str(column_name)+ " FROM " +str(table_name)+ " ORDER BY timestamp DESC LIMIT 1"
         mycursor.execute(query)
         result = mycursor.fetchall()
         db.commit()

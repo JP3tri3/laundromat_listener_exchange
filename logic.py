@@ -62,3 +62,5 @@ def get_time():
     kv = {'time' : datetime.datetime.now(), 'd' : day, 'hr' : hour, 'm' : mins}
 
     return kv
+
+

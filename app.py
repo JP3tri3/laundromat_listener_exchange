@@ -4,6 +4,7 @@ from bybit_api import Bybit_Api
 import database
 import comms
 import logic
+from strategy import vwap_cross_strat
 
 test_tf = True # True for Testnet, False for Mainnet
 leverage = 5
@@ -40,27 +41,18 @@ async def main():
     
     api.set_leverage(leverage)
 
-    #     if (green_dot_30_min == True) and (vwap_10_min > 10):
+    # run strat from strategy.vwap_cross:
+    print('checking strat values')
+    if (vwap_cross_strat.vwap_values_multiple_tf() == 'uptrend'):
+        # long:
+        api.place_order(price=api.last_price(),order_type='Market',side='Buy',input_quantity=input_quantity,stop_loss=0, reduce_only=False)
+        # short:
+    elif (vwap_cross_strat.vwap_values_multiple_tf() == 'downtrend'):
+        api.place_order(price=api.last_price(),order_type='Market',side='Sell',input_quantity=input_quantity,stop_loss=0, reduce_only=False)
+    else:
+        print('waiting on trigger')
 
-    #         # # use any of the order functions in bybit_api.py
-    #         api.place_order(price, order_type, side, input_quantity, stop_loss, reduce_only)
-
-    #         # # confirm position:
-    #         if (api.get_position_size() > 0):
-    #             # # Set up monitoring for close etc etc etc
-    #             print(f'current price: {api.last_price()}')
-    #         else:
-    #             # # try to place order again or check variables again
-    #             api.place_order(price, order_type, side, input_quantity, stop_loss, reduce_only)
-
-    #     else:
-    #         # # Set main_flag back to false if initial conditions weren't met, 
-    #         # # waiting for next webhook alert
-    #         main_flag = False
-
-
-
-
+    await asyncio.sleep(30)
 
 if __name__ == "__main__":  
     try:
