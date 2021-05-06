@@ -5,7 +5,7 @@ import sql_connector as conn
 def vwap_values_multiple_tf():
     vwap_trend = None
 
-    # retrieve values from table:
+    # retrieve values from table via sql_connector.py:
     vwap_15m = conn.get_last_row_value('15m', 'vwap_mcb')
     vwap_1hr = conn.get_last_row_value('1hr', 'vwap_mcb')
     vwap_4hr = conn.get_last_row_value('4hr', 'vwap_mcb')

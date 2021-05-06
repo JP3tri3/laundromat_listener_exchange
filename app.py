@@ -41,7 +41,7 @@ async def main():
     
     api.set_leverage(leverage)
 
-    # run strat from strategy.vwap_cross:
+    # run strat from strategy.vwap_cross_strat.py:
     print('checking strat values')
     if (vwap_cross_strat.vwap_values_multiple_tf() == 'uptrend'):
         # long:
