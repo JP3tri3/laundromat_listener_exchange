@@ -28,21 +28,23 @@ def add_row_from_time(table_name):
     current_row_time = conn.view_info_table_value(table_name)
     time = get_time()
     time_frame = int(time[frame])
-    
+    check_time = int(current_row_time) + int(digit)
+
     if (current_row_time) == 0:
         print('current_row_time = 0, creating new row')
+        conn.add_new_row(table_name, time_frame)
         conn.set_info_table_value(table_name, time_frame)
+        current_row_time = time_frame
     else:
-        check_time = int(current_row_time) + int(digit)
         if (time_frame >= check_time):
             print(f'creating new row for {table_name} table')
-            conn.add_new_row(table_name, current_row_time)
+            conn.add_new_row(table_name, time_frame)
             conn.set_info_table_value(table_name, time_frame)
             current_row_time = time_frame
 
         else:
             print(f'current row time: {current_row_time} for {table_name} table')
-            print(f'next time frame for updated values: {check_time} {frame}')
+            print(f'next time frame for creating new row: {check_time} {frame}')
 
     return current_row_time
 
