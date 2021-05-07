@@ -36,7 +36,7 @@ def vwap_values_multiple_tf():
     if vwap_15m_check and vwap_1hr_check and vwap_4hr_check and vwap_1d_check:
         vwap_trend = 'uptrend'
     elif (vwap_15m_check == False) and (vwap_1hr_check == False) and \
-        (vwap_15vwap_4hr_checkm_check == False) and (vwap_1d_check == False):
+        (vwap_4hr_check == False) and (vwap_1d_check == False):
         vwap_trend = 'downtrend'
     else:
         vwap_trend = 'notrend'
