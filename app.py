@@ -11,9 +11,11 @@ test_tf = True # True for Testnet, False for Mainnet
 run_strat = False # True to run strat code in main
 setup_tables = False # True to setup all database tables
 remove_tables = False # True to remove all database tables
-leverage = 5
+
 symbol_pair = 'BTCUSD' # currently set for BTCUSD or ETHUSD
-input_quantity = 100 * leverage 
+input_amount = 100
+leverage = 5
+input_quantity = input_amount * leverage 
 entry_side = 'Buy'
 
 if test_tf == True:
