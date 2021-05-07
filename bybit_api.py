@@ -208,8 +208,11 @@ class Bybit_Api:
             return 'null'     
 
     def get_position_size(self):
-        position_result = self.get_position_result()
-        return position_result['size']
+        try:
+            position_result = self.get_position_result()
+            return position_result['size']
+        except Exception as e:
+            print("an exception occured - {}".format(e))
 
     def get_position_value(self):
         position_result = self.get_position_result()

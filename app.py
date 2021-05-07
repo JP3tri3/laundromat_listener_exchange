@@ -53,26 +53,47 @@ async def main():
     if remove_tables: conn.remove_all_tables()
 
     # strat code:
+    active_trend = None
     
     while (run_strat):
         # run strat from strategy.vwap_cross_strat.py:
         print('checking strat values')
         position_size = api.get_position_size()
-        if api.get_position_size() == 0:
-            trend = vwap_cross_strat.vwap_values_multiple_tf_trends()
+
+        trend = vwap_cross_strat.vwap_values_multiple_tf_trends()
+        # Open new position when no position is open:
+        if (position_size == 0):
             if (trend == 'uptrend'):
                 # long:
+                print(f'new trend: {trend} - opening long')
                 api.place_order(price=api.last_price(),order_type='Market',side='Buy',input_quantity=input_quantity,stop_loss=0, reduce_only=False)
-                trend = None
+                active_trend = trend
+
                 # short:
             elif (trend == 'downtrend'):
+                print(f'new trend: {trend} - opening short')
                 api.place_order(price=api.last_price(),order_type='Market',side='Sell',input_quantity=input_quantity,stop_loss=0, reduce_only=False)
-                trend = None
-        else:
-            print('active position:')
-            print(f'position_sizee: {position_size}')
-            print(f'pair last price: {api.last_price()}')
-        
+                active_trend = trend
+
+        # active position, check for close:
+        elif (position_size > 0):
+            # close on downtrend if in uptrend:
+            if (active_trend == 'uptrend') and (trend == 'downtrend'):
+                print(f'new trend: {trend} - closing long')
+                api.place_order(price=api.last_price(),order_type='Market',side='Sell',input_quantity=position_size,stop_loss=0, reduce_only=True)
+                active_trend = trend
+            # close on uptrend if in downtrend:
+            elif (active_trend == 'downtrend') and (trend == 'uptrend'):
+                print(f'new trend: {trend} - closing short')
+                api.place_order(price=api.last_price(),order_type='Market',side='Buy',input_quantity=position_size,stop_loss=0, reduce_only=True)
+                active_trend = trend
+            # prints while checking:
+            else:
+                print('active position:')
+                print(f'position_sizee: {position_size}')
+                print(f'pair last price: {api.last_price()}')
+                print(f'active_trend: {active_trend}')
+
         await asyncio.sleep(5)
 
 if __name__ == "__main__":  
