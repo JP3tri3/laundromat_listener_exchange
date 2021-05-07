@@ -42,3 +42,23 @@ def vwap_values_multiple_tf():
         vwap_trend = 'notrend'
 
     return vwap_trend
+
+
+def vwap_values_multiple_tf():
+    vwap_trend = None
+
+    # retrieve values from table via sql_connector.py:
+    vwap_15m = conn.get_last_row_value('15m', 'vwap_mcb')
+    vwap_1hr = conn.get_last_row_value('1hr', 'vwap_mcb')
+    vwap_4hr = conn.get_last_row_value('4hr', 'vwap_mcb')
+    vwap_1d = conn.get_last_row_value('1d', 'vwap_mcb')
+
+    # compare values:
+    if (vwap_15m == 'up') and (vwap_1hr == 'up') \
+        and (vwap_4hr == 'up') and (vwap_1d == 'up'):
+        return 'uptrend'
+    elif (vwap_15m == 'down') and (vwap_1hr == 'down') \
+        and (vwap_4hr == 'down') and (vwap_1d == 'down'):
+        return 'downtrend'
+    else:
+        return None

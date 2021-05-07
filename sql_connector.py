@@ -14,24 +14,48 @@ db = mysql.connector.connect(
 
 mycursor = db.cursor()
 
-# mycursor.execute("INSERT INTO info () VALUES ('1m', 0)")
-# db.commit()
+tf_tables_list = ["1m", "6m", "15m", "1hr", "4hr", "1d"]
 
-# mycursor.execute("CREATE TABLE 1m (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_side DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
-# mycursor.execute("CREATE TABLE 6m (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_side DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
-# mycursor.execute("CREATE TABLE 15m (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_side DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
-# mycursor.execute("CREATE TABLE 1hr (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_side DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
-# mycursor.execute("CREATE TABLE 4hr (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_side DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
-# mycursor.execute("CREATE TABLE 1d (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_side DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
-# mycursor.execute("CREATE TABLE info (table_name VARCHAR(8), current_row_time INT(32))")
+# def test_table_count():
+#   "IF (SELECT COUNT(*)FROM information_schema.tables WHERE table_schema =  DATABASE() AND table_name = '1m')= 1 THEN RETURN TRUE; ELSE RETURN FALSE; END IF;"
 
-# mycursor.execute("INSERT INTO info () VALUES ('6m', 0)")
-# mycursor.execute("INSERT INTO info () VALUES ('15m', 0)")
-# mycursor.execute("INSERT INTO info () VALUES ('1hr', 0)")
-# mycursor.execute("INSERT INTO info () VALUES ('4hr', 0)")
-# mycursor.execute("INSERT INTO info () VALUES ('1d', 0)")
+def setup_tables():
+    try: 
+        print("Creating all tables: ")
+        mycursor.execute("CREATE TABLE 1m (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_size DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
+        mycursor.execute("CREATE TABLE 6m (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_size DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
+        mycursor.execute("CREATE TABLE 15m (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_size DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
+        mycursor.execute("CREATE TABLE 1hr (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_size DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
+        mycursor.execute("CREATE TABLE 4hr (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_size DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
+        mycursor.execute("CREATE TABLE 1d (frame INT, timestamp VARCHAR(32), pair VARCHAR(12), 21ema DECIMAL, 18ema DECIMAL, ema_trend VARCHAR(12), candle_open DECIMAL, candle_close DECIMAL, candle_high DECIMAL, candle_low DECIMAL, candle_size DECIMAL, candle_engulfing VARCHAR(8), vwap_mcb DECIMAL, vwap_mcb_trend VARCHAR(8), mfi_mcb DECIMAL, mfi_mcb_trend VARCHAR(8), big_green_dot_mcb VARCHAR(8), green_dot_mcb VARCHAR(8), red_dot_mcb VARCHAR(8), candle_strength_mcdbsi DECIMAL, candle_strength_mcdbsi_trend VARCHAR(8))")
+        
+        mycursor.execute("CREATE TABLE info (table_name VARCHAR(8), current_row_time INT(32))")
 
-# db.commit()
+        mycursor.execute("INSERT INTO info () VALUES ('1m', 0)")
+        mycursor.execute("INSERT INTO info () VALUES ('6m', 0)")
+        mycursor.execute("INSERT INTO info () VALUES ('15m', 0)")
+        mycursor.execute("INSERT INTO info () VALUES ('1hr', 0)")
+        mycursor.execute("INSERT INTO info () VALUES ('4hr', 0)")
+        mycursor.execute("INSERT INTO info () VALUES ('1d', 0)")
+
+        db.commit()
+    except mysql.connector.Error as error:
+        print("Failed to update record to database: {}".format(error))
+
+def remove_all_tables():
+    try:
+        print("removing all tables: ")
+        mycursor.execute("DROP TABLE info")
+        mycursor.execute("DROP TABLE 1m")
+        mycursor.execute("DROP TABLE 6m")
+        mycursor.execute("DROP TABLE 15m")
+        mycursor.execute("DROP TABLE 1hr")
+        mycursor.execute("DROP TABLE 4hr")
+        mycursor.execute("DROP TABLE 1d")
+
+    except mysql.connector.Error as error:
+        print("Failed to update record to database: {}".format(error))
+
 
 def add_new_row(table_name, time_frame):
     mycursor.execute("INSERT INTO " + str(table_name) + " () VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (time_frame, datetime.datetime.now(), 'empty', 0.0, 0.0, 'empty', 0.0, 0.0, 0.0, 0.0, 0.0, 'empty', 0.0, 'empty', 0.0, 'empty', 'empty', 'empty', 'empty', 0.0, 'empty'))
