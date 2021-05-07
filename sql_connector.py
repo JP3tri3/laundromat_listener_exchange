@@ -38,6 +38,13 @@ def setup_tables():
         mycursor.execute("INSERT INTO info () VALUES ('4hr', 0)")
         mycursor.execute("INSERT INTO info () VALUES ('1d', 0)")
 
+        mycursor.execute("INSERT INTO 1m () VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (0, datetime.datetime.now(), 'empty', 0.0, 0.0, 'empty', 0.0, 0.0, 0.0, 0.0, 0.0, 'empty', 0.0, 'empty', 0.0, 'empty', 'empty', 'empty', 'empty', 0.0, 'empty'))
+        mycursor.execute("INSERT INTO 6m () VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (0, datetime.datetime.now(), 'empty', 0.0, 0.0, 'empty', 0.0, 0.0, 0.0, 0.0, 0.0, 'empty', 0.0, 'empty', 0.0, 'empty', 'empty', 'empty', 'empty', 0.0, 'empty'))
+        mycursor.execute("INSERT INTO 15m () VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (0, datetime.datetime.now(), 'empty', 0.0, 0.0, 'empty', 0.0, 0.0, 0.0, 0.0, 0.0, 'empty', 0.0, 'empty', 0.0, 'empty', 'empty', 'empty', 'empty', 0.0, 'empty'))
+        mycursor.execute("INSERT INTO 1hr () VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (0, datetime.datetime.now(), 'empty', 0.0, 0.0, 'empty', 0.0, 0.0, 0.0, 0.0, 0.0, 'empty', 0.0, 'empty', 0.0, 'empty', 'empty', 'empty', 'empty', 0.0, 'empty'))
+        mycursor.execute("INSERT INTO 4hr () VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (0, datetime.datetime.now(), 'empty', 0.0, 0.0, 'empty', 0.0, 0.0, 0.0, 0.0, 0.0, 'empty', 0.0, 'empty', 0.0, 'empty', 'empty', 'empty', 'empty', 0.0, 'empty'))
+        mycursor.execute("INSERT INTO 1d () VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (0, datetime.datetime.now(), 'empty', 0.0, 0.0, 'empty', 0.0, 0.0, 0.0, 0.0, 0.0, 'empty', 0.0, 'empty', 0.0, 'empty', 'empty', 'empty', 'empty', 0.0, 'empty'))
+        
         db.commit()
     except mysql.connector.Error as error:
         print("Failed to update record to database: {}".format(error))
