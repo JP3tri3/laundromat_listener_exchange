@@ -1,6 +1,7 @@
 import bybit
 from time import time, sleep
 import time
+import pprint
 
 class Bybit_Api:
 
@@ -210,7 +211,12 @@ class Bybit_Api:
     def get_position_size(self):
         try:
             position_result = self.get_position_result()
-            return position_result['size']
+            if 'data' in position_result[0]:
+                position_size = position_result[0]['data']['size']
+            else:
+                position_size = position_result['size']
+            return position_size
+
         except Exception as e:
             print("an exception occured - {}".format(e))
 
