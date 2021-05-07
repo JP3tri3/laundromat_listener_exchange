@@ -57,10 +57,12 @@ async def main():
     
     while (run_strat):
         # run strat from strategy.vwap_cross_strat.py:
-        print('checking strat values')
+        print('\nchecking strat values')
         position_size = api.get_position_size()
+        print(f'position_size: {position_size}')
 
         trend = vwap_cross_strat.vwap_values_multiple_tf_trends()
+        print(f'trend: {trend}')
         # Open new position when no position is open:
         if (position_size == 0):
             if (trend == 'uptrend'):

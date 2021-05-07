@@ -16,9 +16,6 @@ mycursor = db.cursor()
 
 tf_tables_list = ["1m", "6m", "15m", "1hr", "4hr", "1d"]
 
-# def test_table_count():
-#   "IF (SELECT COUNT(*)FROM information_schema.tables WHERE table_schema =  DATABASE() AND table_name = '1m')= 1 THEN RETURN TRUE; ELSE RETURN FALSE; END IF;"
-
 def setup_tables():
     try: 
         print("Creating all tables: ")
