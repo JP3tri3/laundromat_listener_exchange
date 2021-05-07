@@ -10,7 +10,7 @@ import sql_connector as conn
 test_tf = True # True for Testnet, False for Mainnet
 run_strat = False # True to run strat code in main
 setup_tables = False # True to setup all database tables
-remove_tables = True # True to remove all database tables
+remove_tables = False # True to remove all database tables
 leverage = 5
 symbol_pair = 'BTCUSD' # currently set for BTCUSD or ETHUSD
 input_quantity = 100 * leverage 
