@@ -52,22 +52,23 @@ async def main():
     if setup_tables: conn.setup_tables()
     if remove_tables: conn.remove_all_tables()
 
-    # conn.test_table_count()
     # strat code:
 
-    # if run_strat:
-    #     # run strat from strategy.vwap_cross_strat.py:
-    #     print('checking strat values')
-    #     if (vwap_cross_strat.vwap_values_multiple_tf() == 'uptrend'):
-    #         # long:
-    #         api.place_order(price=api.last_price(),order_type='Market',side='Buy',input_quantity=input_quantity,stop_loss=0, reduce_only=False)
-    #         # short:
-    #     elif (vwap_cross_strat.vwap_values_multiple_tf() == 'downtrend'):
-    #         api.place_order(price=api.last_price(),order_type='Market',side='Sell',input_quantity=input_quantity,stop_loss=0, reduce_only=False)
-    #     else:
-    #         print('waiting on trigger')
+    if run_strat:
+        # run strat from strategy.vwap_cross_strat.py:
+        print('checking strat values')
+        if (vwap_cross_strat.vwap_values_multiple_tf() == 'uptrend'):
+            # long:
+            api.place_order(price=api.last_price(),order_type='Market',side='Buy',input_quantity=input_quantity,stop_loss=0, reduce_only=False)
+            # short:
+        elif (vwap_cross_strat.vwap_values_multiple_tf() == 'downtrend'):
+            api.place_order(price=api.last_price(),order_type='Market',side='Sell',input_quantity=input_quantity,stop_loss=0, reduce_only=False)
+        else:
+            print('waiting on trigger')
 
-    #     await asyncio.sleep(30)
+        await asyncio.sleep(15)
+
+
 
 if __name__ == "__main__":  
     try:
