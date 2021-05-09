@@ -4,7 +4,7 @@ from bybit_api import Bybit_Api
 import database
 import comms
 import logic
-from strategy import vwap_cross_strat
+from strategy.vwap_cross_strat import VWAP_Cross_Strat
 import sql_connector as conn
 
 test_tf = True # True for Testnet, False for Mainnet
@@ -46,62 +46,25 @@ async def main():
         print("Invalid Symbol Pair")
 
     api = Bybit_Api(api_key, api_secret, symbol, symbol_pair, key_input, test_tf)
-    
+    vwap_cross_strat = VWAP_Cross_Strat(limit_price_difference, input_quantity, api_key, api_secret, symbol, symbol_pair, key_input, test_tf)
+
     api.set_leverage(leverage)
 
     if setup_tables: conn.setup_tables()
     if remove_tables: conn.remove_all_tables()
-
-    # strat code:
-    active_trend = None
     
     while (run_strat):
-        # run strat from strategy.vwap_cross_strat.py:
-        print('\nchecking strat values')
-        position_size = api.get_position_size()
-        print(f'position_size: {position_size}')
 
-        trend = vwap_cross_strat.vwap_values_multiple_tf_trends()
-        print(f'trend: {trend}')
-        # Open new position when no position is open:
-        if (position_size == 0):
-            if (trend == 'uptrend'):
-                # long:
-                print(f'new trend: {trend} - opening long')
-                api.place_order(price=api.last_price(),order_type='Market',side='Buy',input_quantity=input_quantity,stop_loss=0, reduce_only=False)
-                active_trend = trend
 
-                # short:
-            elif (trend == 'downtrend'):
-                print(f'new trend: {trend} - opening short')
-                api.place_order(price=api.last_price(),order_type='Market',side='Sell',input_quantity=input_quantity,stop_loss=0, reduce_only=False)
-                active_trend = trend
+        await vwap_cross_strat.main_vwap_cross_strat()
 
-        # active position, check for close:
-        elif (position_size > 0):
-            # close on downtrend if in uptrend:
-            if (active_trend == 'uptrend') and (trend == 'downtrend'):
-                print(f'new trend: {trend} - closing long')
-                api.place_order(price=api.last_price(),order_type='Market',side='Sell',input_quantity=position_size,stop_loss=0, reduce_only=True)
-                active_trend = trend
-            # close on uptrend if in downtrend:
-            elif (active_trend == 'downtrend') and (trend == 'uptrend'):
-                print(f'new trend: {trend} - closing short')
-                api.place_order(price=api.last_price(),order_type='Market',side='Buy',input_quantity=position_size,stop_loss=0, reduce_only=True)
-                active_trend = trend
-            # prints while checking:
-            else:
-                print('active position:')
-                print(f'position_sizee: {position_size}')
-                print(f'pair last price: {api.last_price()}')
-                print(f'active_trend: {active_trend}')
 
-        await asyncio.sleep(5)
 
 if __name__ == "__main__":  
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print("closed by interrupt")
         loop.close()
+        print("closed by interrupt")
+        
 
