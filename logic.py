@@ -79,7 +79,7 @@ def get_time():
     kv = {}
 
     # # add to dict: 
-    kv = {'time' : datetime.datetime.now(), 'd' : day, 'h' : hour, 'm' : mins}
+    kv = {'time' : datetime.datetime.now(), 'd' : day, 'h' : hour, 'hr' : hour, 'm' : mins}
 
     return kv
 
