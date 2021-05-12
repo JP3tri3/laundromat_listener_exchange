@@ -15,11 +15,31 @@ def store_data(data):
             time = add_row_from_time(table_name)
             conn.update_table_values(table_name, time, column_name, value)
 
+
+def separate_tf(table_name):
+    table_name_identifier = ''
+    tf = ''
+    attach = '_'
+
+    i = 0
+    for x in table_name:
+        if (i == 0):
+            if x != attach:
+                table_name_identifier += x
+            else:
+                i += 1
+        elif (i == 1):
+            if x != attach:
+                tf += x
+    
+    return tf
+
 def add_row_from_time(table_name):
+    tf = separate_tf(table_name)
     digit = ''
     frame = ''
 
-    for x in table_name:
+    for x in tf:
         if x.isdigit():
             digit += x
         else:
@@ -59,7 +79,7 @@ def get_time():
     kv = {}
 
     # # add to dict: 
-    kv = {'time' : datetime.datetime.now(), 'd' : day, 'hr' : hour, 'm' : mins}
+    kv = {'time' : datetime.datetime.now(), 'd' : day, 'h' : hour, 'm' : mins}
 
     return kv
 
