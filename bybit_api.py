@@ -195,17 +195,18 @@ class Bybit_Api:
             return False
         return order
 
-#position:
+    # position:
     def get_position_result(self):
         try:
             position_result = self.client.Positions.Positions_myPosition(symbol=self.symbol_pair).result()
             position_result = position_result[0]['result']
-            if 'data' in position_result[0]:
-                return position_result[0]['data']
-            else:
+            if 'data' not in position_result:
                 return position_result
+            else:
+                return position_result[0]['data']
+
         except Exception as e:
-            print("an exception occured - {}".format(e))
+            print("an exception occured in get_position_result - {}".format(e))
 
     def get_position_side(self):
         try:
