@@ -1,11 +1,9 @@
 import config
 import asyncio
 from bybit_api import Bybit_Api
-import database
-import comms
-import logic
 from strategy.vwap_cross_strat import VWAP_Cross_Strat
 import sql_connector as conn
+import listener
 
 test_tf = True # True for Testnet, False for Mainnet
 run_strat = True # True to run strat code in main
@@ -25,10 +23,6 @@ else:
     api_key = config.BYBIT_MAINNET_API_KEY
     api_secret = config.BYBIT_MAINNET_API_SECRET    
 
-main_flag = True
-
-def set_main_flag(true_false):
-    main_flag = true_false
 
 async def main():
 
@@ -54,9 +48,11 @@ async def main():
     if remove_tables: conn.remove_all_tables()
     
     while (run_strat):
+        task_strat = asyncio.create_task(vwap_cross_strat.main_vwap_cross_strat())
+        task_heartbeat = asyncio.create_task(listener.db_heartbeat())
 
-
-        await vwap_cross_strat.main_vwap_cross_strat()
+        await task_strat
+        await task_heartbeat
 
 
 
@@ -64,7 +60,6 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        loop.close()
         print("closed by interrupt")
         
 

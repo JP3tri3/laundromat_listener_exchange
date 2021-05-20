@@ -1,13 +1,9 @@
 import config
 import json
 import asyncio
-import database
-from sanic import Sanic
-from sanic import response
-from sanic.request import Request
+from sanic import Sanic 
 from sanic.response import json
 from sanic_jinja2 import SanicJinja2
-import comms
 import logic
 
 app = Sanic(__name__)
@@ -39,6 +35,11 @@ async def webhook(request):
             "code": "success",
             "message": "json updated"
         })
+
+# heartbeat
+async def db_heartbeat():
+    await logic.db_heartbeat()
+    await asyncio.sleep(0)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)

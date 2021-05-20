@@ -1,7 +1,31 @@
 import time
 import datetime
-import json
 import sql_connector as conn
+import asyncio
+
+async def db_heartbeat():
+    beat = 0
+    # set 'timer' for heartbeat interval:
+    timer = 5
+    seconds = 0
+    hr_reset = 3600
+    hr_count = 0
+    print(f'\n... initialize db_heartbeat ...\n')
+
+    while (True):
+        if (beat == timer):
+            conn.db_heartbeat()
+            beat = 0
+            print(f'\ndb_heartbeat: set to {timer}, seconds: {seconds}, hrs: {hr_count}\n')
+            await asyncio.sleep(1)
+        elif (seconds >= hr_reset):
+            seconds = 0
+            hr_count += 1
+        else:
+            await asyncio.sleep(1)
+        
+        beat += 1
+        seconds += 1
 
 def store_data(data):
 

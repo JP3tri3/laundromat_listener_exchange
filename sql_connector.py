@@ -12,9 +12,16 @@ db = mysql.connector.connect(
     database = config.database_name
 )
 
-mycursor = db.cursor()
+def db_heartbeat():
+    mysql.connector.connect(
+    host = config.host,
+    user = config.user,
+    passwd = config.passwd,
+    auth_plugin = config.auth_plugin,
+    database = config.database_name
+    )
 
-tf_tables_list = ["1m", "6m", "15m", "1hr", "4hr", "1d"]
+mycursor = db.cursor()
 
 def setup_tables():
     try: 

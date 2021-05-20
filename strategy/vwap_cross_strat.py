@@ -115,6 +115,7 @@ class VWAP_Cross_Strat:
                         print(f'unfilled order timer: {order_timer}')
                         if (order_timer >= reset_order_time):
                             order_check = False
+                await asyncio.sleep(interval)
                     
             # breaks out of loop when order is filled and active unfilled orders == 0, or if unfilled order after 30 seconds
 
@@ -173,8 +174,8 @@ class VWAP_Cross_Strat:
 
         # retrieve values from table via sql_connector.py:
         vwap_15m_trend = conn.get_last_row_value('15m', 'vwap_mcb_trend')
-        vwap_1hr_trend = conn.get_last_row_value('1hr', 'vwap_mcb_trend')
-        vwap_4hr_trend = conn.get_last_row_value('4hr', 'vwap_mcb_trend')
+        vwap_1hr_trend = conn.get_last_row_value('1h', 'vwap_mcb_trend')
+        vwap_4hr_trend = conn.get_last_row_value('4h', 'vwap_mcb_trend')
         vwap_1d_trend = conn.get_last_row_value('1d', 'vwap_mcb_trend')
 
         # TEST PRINTS: 
@@ -197,8 +198,8 @@ class VWAP_Cross_Strat:
 
         # retrieve values from table via sql_connector.py:
         vwap_15m = conn.get_last_row_value('15m', 'vwap_mcb')
-        vwap_1hr = conn.get_last_row_value('1hr', 'vwap_mcb')
-        vwap_4hr = conn.get_last_row_value('4hr', 'vwap_mcb')
+        vwap_1hr = conn.get_last_row_value('1h', 'vwap_mcb')
+        vwap_4hr = conn.get_last_row_value('4h', 'vwap_mcb')
         vwap_1d = conn.get_last_row_value('1d', 'vwap_mcb')
 
         # sets condition check:
